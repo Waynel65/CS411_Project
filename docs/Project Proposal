@@ -5,12 +5,12 @@ Section A2 Group 5
 Proposal #1: Book Recommendation App
 Our application returns a book recommendation based on the user’s music preferences. 
 We first use the Spotify API to browse through the user’s playlists and find a general
-mood and genre of music he/she likes possible through the Watson API. The results will
-generate a random book title from one of the book API’s that has a similar genre category.
+mood or genre of music he/she likes possibly through the Watson API. Then, we will
+generate a random book that has a similar genre category or mood from one of the book API’s.
 
 
 Proposal #2: Boston University Marketplace
-Our “OfferUp”-esque application will facilitate trusted and safe C2C marketplace for Boston
+Our “OfferUp”-esque application will facilitate a trusted and safe C2C marketplace for Boston
 University students. Users can only have access to these services if he/she has a BU email 
 address. When an offer is accepted, an API will find a safe location for students to meet up. 
 Reviews and User Ratings will be implemented after each successful transaction. 
