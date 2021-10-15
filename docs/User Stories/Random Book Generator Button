@@ -1,4 +1,7 @@
 Front End:
 As a user, I want to find a book that suits a genre of music that I listen to.
 Back End:
-Application provides a “Find Book” button that the user can click on, which generates and outputs a random book from our music-to-book genre mapping algorithm.
+Application provides a “Find Book” button that the user can click on, which generates
+and outputs 5 random books from our music-to-book genre mapping algorithm along with
+their average star score.
+
