@@ -1,0 +1,2 @@
+Front End: After the users finish the book, he/she can rate the book that they just listened to or read so that the algorithm have a better suggestion for users next time and we can determine if the writer has great content to listen to. 
+Back End: Have a database to help users add stars for each book they finish. The star rating averages will be associated with the books and will be displayed so that users can see which books are highly recommended.
