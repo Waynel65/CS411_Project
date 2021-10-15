@@ -1,0 +1,2 @@
+Front End: Once users receive a suggestion from the book generator, if they are interested in reading the book, there will be an Audible button and an ebook link for users. 
+Back End: The algorithms will look into the database to find the unique key of the book and then link each button to the correct Audible and ebook format. 
