@@ -1,0 +1,14 @@
+Logging In:
+“As a user, I want to log into the application and make sure I am using my own Spotify
+account so that I can personalize the recommendation of books.”
+
+Happy Path:
+The user will be met with a "Welcome" page prompting them to log in through their Spotify account.
+Once their Spotify account is authenticated, the user has the option of choosing which playlist they
+would like the algorithm to scan through. 
+
+Unhappy Path:
+If the user does not have a Spotify account, they will be prompted to make a Spotify account and a playlist
+with all of their favorite songs. The genre of music that they prefer should in theory be similar to that of
+their favorite songs so this allows the user to quickly get a book recommendation without having to listen to
+too much music.
