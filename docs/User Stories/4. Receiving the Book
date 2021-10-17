@@ -1,0 +1,16 @@
+Receiving the Book: 
+“As a user, I want to receive the book suggestion and have options on
+the format I would like to read the book in so that I do not have to spend
+a lot of time searching for it. I also want to be able to see which books are
+strongly suggested so that I know which ones contain good content.”
+
+Happy Path: The user will select a certain book title from the list of recommended
+books that is generated from the website (see “Random Book Generator”). A dropdown
+will provide a link to purchase the book online for the user along with a playable
+Audible trial where the user can listen to a small portion of the audiobook to see
+if they enjoy it. 
+
+Unhappy Path: If the selected book does not have an audiobook from Audible available
+or the book does not have any link to purchase it, then the user will be met with a
+message that says “No Resources Available” and the ISBN number of the book will be given
+to the user with a link to “isbnsearch.org .”
