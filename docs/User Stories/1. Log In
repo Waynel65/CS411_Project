@@ -1,6 +1,0 @@
-Front End:
-As a user, I want to log into the application and make sure I am using my own Spotify account
-so that I can personalize the recommendation of books.
-Back End:
-Application verifies that the user has a Spotify account using the Spotify API and reads the
-genres of all the songs that he/she has on every playlist.
