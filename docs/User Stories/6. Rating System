@@ -1,0 +1,16 @@
+Rating System: 
+“As a user, I want to see which books have been strongly
+recommended by others so I know whether they are good books or not.”
+
+Happy Path: After the user chooses a book, it will be remembered
+in their profile. When the user finishes reading the book, they will
+have the option to go to their profile and rate the book out of five
+stars and leave a review. After ranking, there will be a short survey
+to ask if they would like to have similar content or different genres
+suggested. This will help us to improve the suggestion pattern for the users. 
+
+Unhappy Path: If the user did not enjoy the content they listened to
+or read and they left a poor rating (less than 3 stars), similar to
+the “Happy Path” above, they will be given a short survey and be able
+to leave a review to expand on why they did not enjoy the book and choose
+whether they prefer different genres of books.
