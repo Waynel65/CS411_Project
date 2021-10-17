@@ -1,0 +1,8 @@
+Main User Story
+“As a logged-in user, I want to get book recommendations from platforms such as Amazon based on my Spotify music playlists so that I know the book is geared towards my interests.”
+
+Happy Path (when things go right): 
+First, I will log into the website. If I am logging into the website for the first time, I will be given an “interactive instructions” guide that guides me through how the web-app works (refer to <Interactive Instructions> story). Then, I will be prompted to sign into my Spotify account. After the sign-in process succeeds, I will be prompted to choose a playlist (refer to <Logging In> story). Then, the system will generate a list of five books that are recommended to me based on the playlist I chose (refer to <Random Book Generator> story) as well as their average ratings. From there I can click on the book I am interested in and be led to a place where I can get the book (refer to <Receiving the Book>). If I do not like the books recommended, I can hit a refresh button (refer to <Redo Button> story). After I finish reading the book, I can rate how much I like it (refer to <Rating System> story).
+
+Unhappy Path (when things go wrong)
+Specified in each sub-story.
