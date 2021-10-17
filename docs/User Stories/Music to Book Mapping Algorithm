@@ -1,7 +1,0 @@
-Front End: 
-As a user, I want to find a book that matches the genre of music that I like.
-Back End:
-Application finds the most listened to genre of music of the user.
-The genres of music will be mapped to different genres of books.
-Based on the genre of music that the user likes, the corresponding genre
-of book will be suggested to them.
