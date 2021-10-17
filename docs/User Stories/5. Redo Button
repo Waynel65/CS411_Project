@@ -1,0 +1,17 @@
+Redo Button:
+“As a user, once I get my list of books, I might have already
+read some of them if I use the application a lot. I want to have
+the option of getting more, different book recommendations.”
+
+Happy Path:
+Once the user receives their five recommended books, the refresh
+button will appear. This button will allow them to essentially shuffle
+their options and get five more books that fit in the same genre category.
+
+Unhappy Path:
+If the user does not like any of the options and keeps refreshing,
+they will have five maximum refreshes. Once they hit this maximum,
+they can have the system scan their music again for their second most
+listened to genre of the same playlist or have it scan another playlist
+and be offered another set of books (refer to “Random Book Generator” and
+“Receiving the Book”)
