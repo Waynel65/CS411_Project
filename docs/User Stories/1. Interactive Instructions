@@ -2,7 +2,7 @@ Interactive Instructions
 “As a user, I would like to know how to use this web application since it is my first time using it.”
 
 Happy Path:
-If it is the user’s first time using the application, they will have the option to see an instructions manual.
+(Refer to "Logging In") If it is the user’s first time using the application, they will have the option to see an instructions manual.
 In this manual, they will be walked through how the application works and how they can get started. If they do
 not have a Spotify account, they will also have the opportunity to learn more about making one so that the application
 can get them some recommendations.
