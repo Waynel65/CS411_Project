@@ -3,7 +3,7 @@ Random Book Generator:
 I listen to so that I know it adheres to my tastes.”
 
 Happy Path:
-After choosing the playlists from their Spotify account (refer to <Logging in>
+(Refer to "Logging In") After choosing the playlists from their Spotify account (refer to <Logging in>
 story), the user will be shown a button that says “Generate Books.” Then, the web
 page should return a list of 5 books that the algorithm believes are the most relevant
 to the music genre the user likes. From there, the user can either choose a book to start
