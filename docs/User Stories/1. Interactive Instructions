@@ -9,4 +9,5 @@ can get them some recommendations.
 
 Unhappy Path:
 If it is the user’s first time but they do not want to look at the instructions, they can just try to make an
-account on their own and try logging in again (refer to “Logging In, Unhappy Path”).
+account on their own and try logging in again (refer to “Logging In, Unhappy Path”). If it is not their first time logging in
+and they also want to look at the instructions manual, they can do so.
