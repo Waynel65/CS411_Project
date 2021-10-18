@@ -6,7 +6,7 @@ Happy Path:
 (Refer to "Logging In") After choosing the playlists from their Spotify account (refer to <Logging in>
 story), the user will be shown a button that says “Generate Books.” Then, the web
 page should return a list of 5 books that the algorithm believes are the most relevant
-to the music genre the user likes. From there, the user can either choose a book to start
+to the music genre the user likes along with their average star ratings (refer to "Rating System"). From there, the user can either choose a book to start
 reading (refer to <Receiving the Book>) or they can hit the “Redo” button (refer to <Redo Button> story) to get a new list
 of recommended books. 
 
