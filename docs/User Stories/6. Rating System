@@ -2,7 +2,7 @@ Rating System:
 “As a user, I want to see which books have been strongly
 recommended by others so I know whether they are good books or not.”
 
-Happy Path: After the user chooses a book, it will be remembered
+Happy Path: (refer to "Logging In") After the user chooses a book, it will be remembered
 in their profile. When the user finishes reading the book, they will
 have the option to go to their profile and rate the book out of five
 stars and leave a review. After ranking, there will be a short survey
