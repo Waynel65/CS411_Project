@@ -1,0 +1,5 @@
+11/13/21
+
+When deciding which tech stack to choose, we narrowed our decision to two choices: Node and Flask. Although both are quite useful in our scenario,
+we decided that it was in our best interest to use Flask. The members of our group who worked on the backend were more familiar with this framework
+and felt that it served our purpose the best. Furthermore, Flask is written in Python and we were all more familiar with Python than JavaScript.
