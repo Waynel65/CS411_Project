@@ -1,0 +1,62 @@
+/* h1 {
+    border: 2px #eee solid;
+    color: red;
+    text-align: center;
+    padding: 10px;
+} */
+
+* {
+    box-sizing: border-box;
+    font-family: 'Yuji Boku', serif;
+}
+
+#content{
+    text-align: center;
+    /* border: solid; */
+    padding-top: 30em;
+    padding-bottom: 30em;
+}
+
+
+#song-content{
+  display: flex;
+  /* flex-flow: row wrap; */
+  align-items: center;
+  border: solid;
+  text-align: center;
+}
+form{
+    display: inline;
+}
+#main{
+    text-align: center;
+    /* border: solid; */
+    font-size: 20px;
+    margin-top: 20em;
+    margin-bottom: 30em;
+}
+
+input[type=submit]{
+    /* text-align: unset; */
+    border-radius: 12px;
+    font-size: 20px;
+    padding: 12px 28px;
+    display: inline;
+    color:white;
+    background-color: dodgerblue;
+    cursor: pointer;
+    border: none;
+}
+
+input[type=submit]:hover{
+    background-color: royalblue;
+}
+
+input[type=song_title]{
+    border: solid;
+    padding: 0.5em;
+    margin-top: 1em;
+    margin-right: 1em;
+    font-size: 17px;
+    
+}

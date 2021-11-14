@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="../static/css/style.css">
+        <link rel="stylesheet" href="../static/css/style.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Yuji+Boku&display=swap" rel="stylesheet">
+        <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"> -->
+
+        <title>Search a song!</title>
+    </head>
+
+    <body>
+        <div id="main">
+            <div class="heading">
+                <h1>Song Search</h1>
+            </div>
+                <div id="song_content">
+                    <form method="post" action="{{ url_for('displaysearch') }}">
+                        <label for="song_title"></label>
+                        <input type="song_title" name="song_title" placeholder="Enter a song title here.." />
+                        <input type="submit" value="Search">
+                    </form>
+                </div>
+
+                <div id="searchdisplay">
+                    <h3>
+                        {{info}}
+                    </h3>
+
+                            {% if artist %}
+                            <p><a href = {{link}}>{{artist}}</a></p>
+                            {% endif %}
+                            {% if album %}
+                            <img src={{album}} alt="Picture of Artist">
+                            {% endif %}
+
+                </div>
+        </div>
+    </body>
+</html>

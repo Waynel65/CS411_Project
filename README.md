@@ -1,8 +1,10 @@
-# CS411_Project
+Make sure to install all imports:
+    pip install flask
+    pip install requests
+    pip install pillow
 
-Group 5:
+To run, just type "py 411Project" in terminal
+The website should be displayed in address http://127.0.0.1:5000/
 
-Wayne Lin
-Amelia (Ha) Nguyen
-Hui Shi
-Justin Wong
+You need to change the value of OAuthToken in the python code to a valid token
+link to OAuth Token Generator: https://developer.spotify.com/console/get-search-item/ 
