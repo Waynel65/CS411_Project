@@ -4,6 +4,6 @@ When deciding what to choose for our project, we narrowed our decision to two ch
 we decided that it was in our best interest to use Flask. The members of our group who are working on the backend are more familiar with this framework
 and felt that it served our purpose the best. Furthermore, Flask is written in Python and we are all more familiar with Python than JavaScript. In terms
 of the Front End, our current prototype is done in HTML, CSS and JS but we are planning on using React for the final project due to its sheer versatility.
-For the backend, in addition to the Flask framework, we are also planning on using PostgreSQL. For data transport and serving as the middle ground, 
-we will be using JSON. We believe that these tools will help us complete our project the best and offer opportunities to enhance our learning and
-learn new skills while also giving us some familiar ground to build off of.
+For the backend, in addition to the Flask framework, we are also planning on using PostgreSQL. There will also be some pure Python in there to aid the interactions.
+For data transport and serving as the middle ground, we will be using JSON. We believe that these tools will help us complete our project the best and offer
+opportunities to enhance our learning and learn new skills while also giving us some familiar ground to build off of.
