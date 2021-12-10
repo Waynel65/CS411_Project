@@ -1,29 +1,30 @@
-import flask
-from flask import Flask, Response, request, render_template, redirect, url_for
+#import flask
+from flask import Flask, Response, request, session, render_template, redirect, url_for
 import requests
 import json
+import time
 #from flaskext.mysql import MySQL
 #import flask_login
 
 import base64
 import os, base64
-import spotipy
-from spotipy.oauth2 import SpotifyClientCredentials
 
 from PIL import Image
 from io import BytesIO
+from spotipy.oauth2 import SpotifyOAuth
 
 
+#url_auth = 'https://accounts.spotify.com/authorize/?'
+#url_token = 'https://accounts.spotify.com/api/token'
 
 cid = 'f6e61fc841ba4eecad399452ae01c387'
 secret = 'b74e2baa86894fcb8bf5db236d75597d'
-
-#client_credentials_manager = SpotifyClientCredentials(client_id=cid, client_secret=secret)
-#spotify = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
+scope = 'playlist-read-private'#playlist-read-collaborative user-top-read
+redirect_uri = 'http://127.0.0.1:5000/authorize'
 
 app = Flask(__name__)
-
-#print(spotify.current_user())
+app.secret_key = 'secret'
+app.config['SESSION_COOKIE_NAME'] = 'spotify-login-session'
 
 
 # app.secret_key = 'super secret string'  # Change this!
@@ -40,14 +41,59 @@ app = Flask(__name__)
 #     return requests.get('http://example.com').content
 
 
+def create_spotify_oauth():
+	return SpotifyOAuth(client_id = cid, client_secret = secret, redirect_uri= url_for('authorize', _external=True), scope = scope)
+
+def get_token():
+    token_valid = False
+    token_info = session.get("token_info", {})
+    # Checking if the session already has a token stored
+    if not (session.get('token_info', False)):
+        token_valid = False
+        return token_info, token_valid
+
+    # Checking if token has expired
+    now = int(time.time())
+    is_token_expired = session.get('token_info').get('expires_at') - now < 60
+
+    # Refreshing token if it has expired
+    if (is_token_expired):
+        sp_oauth = create_spotify_oauth()
+        token_info = sp_oauth.refresh_access_token(session.get('token_info').get('refresh_token'))
+
+    token_valid = True
+    return token_info, token_valid
+
 @app.route("/", methods=['GET'])
 def hello():
 	return render_template('hello.html', message= 'Welcome')
 
+@app.route("/login")
+def login():
+    sp_oauth = create_spotify_oauth()
+    auth_url = sp_oauth.get_authorize_url()
+    print(auth_url)
+    return redirect(auth_url)
+
+@app.route("/authorize")
+def authorize():
+	sp_oauth = create_spotify_oauth()
+	session.clear()
+	code = request.args.get('code')
+	token_info = sp_oauth.get_access_token(code)
+	session["token_info"] = token_info
+	return redirect("/songsearch")
+
 
 @app.route("/songsearch", methods=['GET'])
 def song():
-	return render_template('song.html')
+	session['token_info'], authorized = get_token()
+	#session.modified = True
+	if not authorized:
+		return render_template('unauthorized.html')
+	else:
+		sp = spotipy.Spotify(auth=session.get('token_info').get('access_token'))
+		return render_template('song.html')
 
 @app.route("/songsearch/", methods=['POST'])
 def displaysearch():
@@ -58,7 +104,6 @@ def displaysearch():
 		return render_template('song.html', message='error')
     #TODO: send query to api and recieve json for book and extract author from json
 	song = song.replace(" ","%20")
-
 	url = "https://api.spotify.com/v1/search?q=" + song + "&type=track&limit=1"
 
 	payload={}
@@ -106,21 +151,20 @@ def get_playlist():
 # Documentation on how to request a new token is here:
 # https://developer.spotify.com/documentation/general/guides/authorization/client-credentials/
 
-def get_token():
-  tokenUrl = "https://accounts.spotify.com/api/token"
-  # The client ID and secret must be encoded as a base 64 string
-  binary = base64.b64encode(bytes(cid + ":" + secret, "utf-8"))
-  authToken = binary.decode("ascii")
-  headers = {
-    "Authorization": "Basic " + authToken
-  }
-  payload = {
-    "grant_type": "client_credentials"
-  }
-  response = requests.request("POST", tokenUrl, headers=headers, data=payload)
-  json = response.json()
-  return json["access_token"]
-
+# def get_token():
+#   tokenUrl = "https://accounts.spotify.com/api/token"
+#   # The client ID and secret must be encoded as a base 64 string
+#   binary = base64.b64encode(bytes(cid + ":" + secret, "utf-8"))
+#   authToken = binary.decode("ascii")
+#   headers = {
+#     "Authorization": "Basic " + authToken
+#   }
+#   payload = {
+#     "grant_type": "client_credentials"
+#   }
+#   response = requests.request("POST", tokenUrl, headers=headers, data=payload)
+#   json = response.json()
+#   return json["access_token"]
 
 if __name__ == "__main__":
 	
