@@ -8,8 +8,7 @@ import json, sys
 from final_project import *
 
 
-#TODO: 
-# also still need to decide what format are we storing the playlist and other stuff in (json or smth else)
+## All the insert functions should look similar and all the get functions should be similar to one another
 
 def create_table():
     '''
