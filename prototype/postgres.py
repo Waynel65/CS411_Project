@@ -4,6 +4,7 @@
 
 
 import psycopg2     ## postgreSQL module
+import json, sys
 from final_project import *
 
 
@@ -17,9 +18,9 @@ def create_table():
     '''
 
     try:
-        sql = '''CREATE TABLE USERS(
-        ID BIGSERIAL NOT NULL PRIMARY KEY,
-        USER_ID VARCHAR(100) NOT NULL,
+        sql = '''CREATE TABLE if not exists USERS(
+        ID BIGSERIAL NOT NULL,
+        USER_ID VARCHAR(100) NOT NULL PRIMARY KEY,
         Playlist jsonb,
         Music_Genre jsonb,
         Book_Titles jsonb
@@ -49,9 +50,15 @@ def insert_playlist(userID, playlist):
         fetch the users' playlist from his/her spotify account
         and store the playlist according to his/her userID in DB
     '''
+    ##TODO: !!! this part needs to be changed to retrieving json from API after Justin set up OAuth
+    with open("samplePlaylistResponse.json") as playlist_file:
+        playlist_data = json.load(playlist_file)
+        cmd = "UPDATE USERS SET Playlist=%s where USER_ID=%s"
+        cursor.execute(cmd, (json.dumps(playlist_data), userID), )
 
     return
 
+##TODO: finish this function
 def insert_music_genre(userID, music_genre):
     '''
         This function should be invoked after insert_playlist
@@ -60,12 +67,42 @@ def insert_music_genre(userID, music_genre):
     '''
     return
 
+##TODO: finish this function
 def insert_book_titles(userID, book_titles):
     '''
         This function should be invoked after fetching books from book API
         and insert the book_titles into DB
     '''
     return 
+
+
+def get_user_playlist(userID):
+    '''
+        this function retrieves the playlist json file from DB
+        according to the related userID
+    '''
+    query = "SELECT Playlist FROM USERS where USER_ID=%s"
+    cursor.execute(query, (userID,))
+    result = cursor.fetchall()
+    print(result)
+    return
+
+##TODO: finish this function
+def get_user_music_genre(userID):
+    '''
+        this function retrieves the music_genre json file from DB
+        according to the related userID
+    '''
+    return
+
+##TODO: finish this function
+def get_use_book_titles(userID):
+    '''
+        this function retrieves the book_titles json file from DB
+        according to the related userID
+    '''
+    return
+
 
 def view_table():
     '''
@@ -78,12 +115,13 @@ def view_table():
     return
 
 ## testing ##
-def get_USERID():
-    query = "SELECT USER_ID FROM USERS where ID=1"
-    cursor.execute(query)
-    result = cursor.fetchall()
-    print(result)
-    return
+
+# def get_USERID():
+#     query = "SELECT USER_ID FROM USERS where ID=1"
+#     cursor.execute(query)
+#     result = cursor.fetchall()
+#     print(result)
+#     return
 
 ### MAIN FUNCTION ###
 if __name__ == "__main__":
@@ -102,8 +140,11 @@ if __name__ == "__main__":
     except:
         print("CONNECTION FAILED")
     
-    # view_table()
-    # get_USERID()
+    create_table()
+    # # insert_userID('wayne')
+    # insert_playlist("wayne", "test")
+    # # view_table()
+    # get_user_playlist("wayne")
     
     if conn is not None:
         conn.close()
