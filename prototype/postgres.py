@@ -159,7 +159,7 @@ if __name__ == "__main__":
         conn = psycopg2.connect(
             database="users",
             user='postgres',
-            password='1Eden2Hui',
+            password='',
             #put whatever your postgres password is above^
             host='localhost',
             port= '5432'
