@@ -52,19 +52,14 @@ def insert_playlist(userID, playlist):
         fetch the users' playlist from his/her spotify account
         and store the playlist according to his/her userID in DB
     '''
-    ##TODO: !!! this part needs to be changed to retrieving json from API after Justin set up OAuth
-    #If there's an error where it says that it can't find the JSON file, might need to specify path
-    with open("./huishi/Desktop/CS411_Project-main/prototype/samplePlaylistResponse.json") as playlist_file:
-        playlist_data = json.load(playlist_file)
-        cmd = "UPDATE USERS SET Playlist=%s where USER_ID=%s"
-        cursor.execute(cmd, (json.dumps(playlist_data), userID), )
+    
+    cmd = "UPDATE USERS SET Playlist=%s where USER_ID=%s"
+    cursor.execute(cmd, (json.dumps(playlist), userID), )
     conn.commit()
 
     return
 
 
-#Hui
-##TODO: finish this function
 def insert_music_genre(userID, music_genre):
     '''
         This function should be invoked after insert_playlist
@@ -72,24 +67,19 @@ def insert_music_genre(userID, music_genre):
         insert the results into DB
     '''
     # might need to go through artist to get genre
-    with open("./huishi/Desktop/CS411_Project-main/samplePlaylistResponse.json") as genre_file:
-        genre_data = json.load(genre_file)
-        cmd = "UPDATE USERS SET Music_Genre=%s where USER_ID=%s"
-        cursor.execute(cmd, (json.dumps(genre_data), userID), )
+    cmd = "UPDATE USERS SET Music_Genre=%s where USER_ID=%s"
+    cursor.execute(cmd, (json.dumps(music_genre), userID), )
     conn.commit()
 
     return
 
-##TODO: finish this function
 def insert_book_titles(userID, book_titles):
     '''
         This function should be invoked after fetching books from book API
         and insert the book_titles into DB
     '''
-    with open("./huishi/Desktop/CS411_Project-main/samplePlaylistResponse.json") as book_file:
-        book_data = json.load(book_file)
-        cmd = "UPDATE USERS SET Music_Genre=%s where USER_ID=%s"
-        cursor.execute(cmd, (json.dumps(book_data), userID), )
+    cmd = "UPDATE USERS SET Music_Genre=%s where USER_ID=%s"
+    cursor.execute(cmd, (json.dumps(book_titles), userID), )
     conn.commit()
 
     return 
@@ -106,7 +96,7 @@ def get_user_playlist(userID):
     print(result)
     return
 
-##TODO: finish this function
+
 def get_user_music_genre(userID):
     '''
         this function retrieves the music_genre json file from DB
@@ -118,7 +108,6 @@ def get_user_music_genre(userID):
     print(result)
     return
 
-##TODO: finish this function
 def get_user_book_titles(userID):
     '''
         this function retrieves the book_titles json file from DB
@@ -141,6 +130,17 @@ def view_table():
 
     conn.commit()
     return
+
+#TODO: why is this not working
+def read_json_file(json_path):
+    '''
+        for testing purposes: used for parsing local json file
+    '''
+    with open(json_path) as json_file:
+        json_data = json.load(json_file)
+        # print(type(json_data))
+        # print(type(json.dumps(json_data)))
+        return json_data
 
 ## testing ##
 
@@ -169,8 +169,10 @@ if __name__ == "__main__":
     except:
         print("CONNECTION FAILED")
     
-    #create_table()
-    #insert_userID('wayne')
+    create_table()
+    insert_userID('XXX')
+    playlist_test = read_json_file("samplePlaylistResponse.json")
+    insert_playlist('XXX', playlist_test)
     #insert_playlist("wayne", "test")
     #view_table()
     #get_user_playlist("wayne")
