@@ -11,6 +11,7 @@ import os, base64
 
 from PIL import Image
 from io import BytesIO
+import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 
 
@@ -64,11 +65,11 @@ def get_token():
     token_valid = True
     return token_info, token_valid
 
-@app.route("/", methods=['GET'])
-def hello():
-	return render_template('hello.html', message= 'Welcome')
+# @app.route("/", methods=['GET'])
+# def hello():
+# 	return render_template('hello.html', message= 'Welcome')
 
-@app.route("/login")
+@app.route("/")
 def login():
     sp_oauth = create_spotify_oauth()
     auth_url = sp_oauth.get_authorize_url()
@@ -80,22 +81,28 @@ def authorize():
 	sp_oauth = create_spotify_oauth()
 	session.clear()
 	code = request.args.get('code')
-	token_info = sp_oauth.get_access_token(code)
+	token_info = sp_oauth.get_access_token(code) ## token info contains access token and refresh token
 	session["token_info"] = token_info
-	return redirect("/songsearch")
+	# return "redirect successfully"
+	return redirect(url_for('song', _external=True))
 
 
-@app.route("/songsearch", methods=['GET'])
-def song():
+
+@app.route("/song", methods=['GET'])
+def song(): ## app route must match function name otherwise wont work
 	session['token_info'], authorized = get_token()
 	#session.modified = True
 	if not authorized:
 		return render_template('unauthorized.html')
 	else:
 		sp = spotipy.Spotify(auth=session.get('token_info').get('access_token'))
-		return render_template('song.html')
+		return render_template('hello.html', message="Welcome!")
 
-@app.route("/songsearch/", methods=['POST'])
+@app.route("/songsearch", methods=['GET'])
+def songsearch():
+	return render_template('song.html')
+
+@app.route("/displaysearch", methods=['POST'])
 def displaysearch():
 	try:
 		song = request.form.get('song_title') ## get input from webpage
@@ -107,7 +114,13 @@ def displaysearch():
 	url = "https://api.spotify.com/v1/search?q=" + song + "&type=track&limit=1"
 
 	payload={}
-	accessToken = get_token()
+	token_info, token_valid = get_token()
+	if(not token_valid):
+		print("THE TOKEN IS INVALID")
+		return
+	
+	accessToken = token_info['access_token']
+
 	info = "Below is the artist of the song:"
 	headers = {
 		'Accept': 'application/json',
