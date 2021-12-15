@@ -18,11 +18,13 @@
             {% endif %}
 
             {% if genre %}
-                <h1>The genre that spoke most to you: {{genre}}</h1>
+                <h1>Your favorite genre: {{genre}}</h1>
             {% endif %}
 
             {% if bookname %}
                 <h2>The random book: {{bookname}}</h2>
+                <p><a href = {{link}}>Link</a></p>
+
                 {% if bookname %}
                     <img src={{picture}} alt="Picture of Book">
                 {% endif %}         

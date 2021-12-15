@@ -159,9 +159,10 @@ def displaybook():
 		random_book = jsonresp['items'][randint]['volumeInfo']['title']
 		print(random_book)
 		thumbnail = jsonresp['items'][randint]['volumeInfo']['imageLinks']['thumbnail']
+		link = jsonresp['items'][randint]['volumeInfo']['canonicalVolumeLink']
 		print(thumbnail)
 		print("------------" + random_book + "------------------")
-		return render_template("book.html", genre=genre, bookname=random_book, picture = thumbnail)
+		return render_template("book.html", genre=genre, bookname=random_book, picture = thumbnail, link=link)
 	except:
 		print("ERROR GET BOOK")
 		return render_template('book.html', message= "testing error")
