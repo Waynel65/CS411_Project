@@ -106,13 +106,13 @@ def insert_music_genre(conn, cursor, userID, music_genre):
 
     return
 
-def insert_book_titles(userID, book_titles):
+def insert_book_title(userID, book_title):
     '''
         This function should be invoked after fetching books from book API
-        and insert the book_titles into DB
+        and insert the book_title into DB
     '''
     cmd = "UPDATE USERS SET Music_Genre=%s where USER_ID=%s"
-    cursor.execute(cmd, (book_titles, userID), )
+    cursor.execute(cmd, (book_title, userID), )
     conn.commit()
 
     return 
@@ -132,7 +132,7 @@ def get_user_playlist(conn, cursor, userID):
 
 def get_user_music_genre(conn, cursor,userID):
     '''
-        this function retrieves the music_genre json file from DB
+        this function retrieves the music_genre from DB
         according to the related userID
     '''
     query = "SELECT Music_Genre FROM USERS where USER_ID=%s"
@@ -141,18 +141,39 @@ def get_user_music_genre(conn, cursor,userID):
     # print("result" , result[0][0])
     return result[0][0]
 
-def get_user_book_titles(userID):
+def get_user_book_title(userID):
     '''
-        this function retrieves the book_titles json file from DB
+        this function retrieves the book_title from DB
         according to the related userID
     '''
-    query = "SELECT Book_Titles FROM USERS where USER_ID=%s"
+    query = "SELECT Book_Title FROM USERS where USER_ID=%s"
     cursor.execute(query, (userID,))
     result = cursor.fetchall()
     print(result)
 
     return result[0][0]
 
+def user_exist(conn, cursor, userID):
+    '''
+        check if user has all relevant info stored in DB
+    '''
+
+    try:
+        check_userID = "SELECT USER_ID FROM USERS where USER_ID=%s"
+        cursor.execute(check_userID, (userID,))
+        
+        check_playlist = "SELECT Playlist FROM USERS where USER_ID=%s"
+        cursor.execute(check_playlist, (userID,))
+
+        check_music_genre = "SELECT Music_Genre FROM USERS where USER_ID=%s"
+        cursor.execute(check_music_genre, (userID,))
+
+        check_book_title = "SELECT Book_Title FROM USERS where USER_ID=%s"
+        cursor.execute(check_book_title, (userID,))
+        return True
+
+    except:
+        return False
 
 def view_table():
     '''

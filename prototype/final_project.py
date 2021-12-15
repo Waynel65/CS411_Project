@@ -102,16 +102,21 @@ def authorize():
 @app.route("/song", methods=['GET'])
 def song(): ## app route must match function name otherwise wont work
 	session['token_info'], authorized = get_token()
+	conn, cursor = get_db_connection()
 
 	#session.modified = True
 	if not authorized:
+		conn.close()
 		return render_template('unauthorized.html')
 	else:
 		sp = spotipy.Spotify(auth=session.get('token_info').get('access_token'))
 
-		## storing user name in database
-		store_user_data()
-		
+		if not (user_exist(conn, cursor, get_current_user_name())):
+			## storing user name in database
+			print("store data")
+			store_user_data()
+
+		conn.close()
 		return render_template('hello.html', message="Welcome!")
 
 
@@ -161,8 +166,9 @@ def displaybook():
 	#TODO: use database to calculate the most popular genre in the playlist
 	conn, cursor = get_db_connection()
 	genre = get_user_music_genre(conn, cursor,get_current_user_name())
-	print(type(genre))
-	print(genre)
+	conn.close()
+	# print(type(genre))
+	# print(genre)
 	key = "&key=AIzaSyCUbOUuw8As3ge_lxljneppox9WbTHimrU"
 	q = "q=subject:" + genre.replace(" ", "_")
 	url = "https://www.googleapis.com/books/v1/volumes?" + q + key
