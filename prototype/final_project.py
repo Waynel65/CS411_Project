@@ -4,16 +4,17 @@ import requests
 import json
 import time
 from random import randrange
-#from flaskext.mysql import MySQL
-#import flask_login
 
 import base64
 import os, base64
+from collections import Counter
 
 from PIL import Image
 from io import BytesIO
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
+
+from postgres import *
 
 
 #url_auth = 'https://accounts.spotify.com/authorize/?'
@@ -21,7 +22,8 @@ from spotipy.oauth2 import SpotifyOAuth
 
 cid = 'f6e61fc841ba4eecad399452ae01c387'
 secret = 'b74e2baa86894fcb8bf5db236d75597d'
-scope = 'playlist-read-private'#playlist-read-collaborative user-top-read
+scope = 'playlist-read-private'
+# scope = 'user-library-read'
 redirect_uri = 'http://127.0.0.1:5000/authorize'
 
 app = Flask(__name__)
@@ -72,10 +74,18 @@ def get_token():
 
 @app.route("/")
 def login():
-    sp_oauth = create_spotify_oauth()
-    auth_url = sp_oauth.get_authorize_url()
-    print(auth_url)
-    return redirect(auth_url)
+
+	## connecting to database
+
+	conn, cursor = get_db_connection()
+	create_table(conn, cursor)
+	conn.close()
+
+	## Oauth
+	sp_oauth = create_spotify_oauth()
+	auth_url = sp_oauth.get_authorize_url()
+	print(auth_url)
+	return redirect(auth_url)
 
 @app.route("/authorize")
 def authorize():
@@ -92,12 +102,18 @@ def authorize():
 @app.route("/song", methods=['GET'])
 def song(): ## app route must match function name otherwise wont work
 	session['token_info'], authorized = get_token()
+
 	#session.modified = True
 	if not authorized:
 		return render_template('unauthorized.html')
 	else:
 		sp = spotipy.Spotify(auth=session.get('token_info').get('access_token'))
+
+		## storing user name in database
+		store_user_data()
+		
 		return render_template('hello.html', message="Welcome!")
+
 
 @app.route("/songsearch", methods=['GET'])
 def songsearch():
@@ -143,7 +159,10 @@ def displaysearch():
 @app.route("/displaybook", methods = ['GET','POST'])
 def displaybook():
 	#TODO: use database to calculate the most popular genre in the playlist
-	genre = "planets"#CHANGE THIS TO FAVORITE GENRE
+	conn, cursor = get_db_connection()
+	genre = get_user_music_genre(conn, cursor,get_current_user_name())
+	print(type(genre))
+	print(genre)
 	key = "&key=AIzaSyCUbOUuw8As3ge_lxljneppox9WbTHimrU"
 	q = "q=subject:" + genre.replace(" ", "_")
 	url = "https://www.googleapis.com/books/v1/volumes?" + q + key
@@ -167,33 +186,129 @@ def displaybook():
 		return render_template('book.html', message= "testing error")
 
 
-#TODO: still needs to work out the OAuth or else this function will keep getting json with error msg
-def get_playlist():
-
-	url = "https://api.spotify.com/v1/me/playlists"
+def get_current_user_name():
 	token_info, token_valid = get_token()
 	if(not token_valid):
 		return render_template('song.html', message='TOKEN INVALID')
 	
-	headers = {
-		'Authorization': ('Bearer ' + access_token),
-		'Content-Type': 'application/json'
-	}
+	access_token = token_info['access_token']
+	sp = spotipy.Spotify(auth=access_token)
+
+	user_name = sp.current_user()
+	try:
+		return user_name['display_name']
+	except:
+		return render_template('song.html', message='user_name error')
+
+# @app.route("/get_playlist")
+def get_playlist():
+	'''
+		returns the ID (in string) of the very first playlist of user's library
+	'''
+
+	# url = "https://api.spotify.com/v1/me/playlists"
+	token_info, token_valid = get_token()
+	if(not token_valid):
+		return render_template('song.html', message='TOKEN INVALID')
+	
+	access_token = token_info['access_token']
+	sp = spotipy.Spotify(auth=access_token)
+
+	playlists = sp.current_user_playlists(limit=10)
+	# print(type(playlists))
+	# print(playlists)
+	try:
+		first_playlist_id = playlists['items'][0]['id']
+		return str(first_playlist_id)
+	except:
+		return render_template('song.html', message='Playlist not found')
+	# print(first_playlist_id)
+	
+# @app.route("/getItems")
+def get_playlist_items(id):
+	'''
+		return a list of songs from the given playlist id
+	'''
+	# id = '7jG9s2hN1UD1dUKGfeA1ED'
+	token_info, token_valid = get_token()
+	if(not token_valid):
+		return render_template('song.html', message='TOKEN INVALID')
+	
+	access_token = token_info['access_token']
+	sp = spotipy.Spotify(auth=access_token)
+
+	song_list = sp.playlist_items(id, limit=100)
 
 	try:
-		response = requests.request("GET", url, headers=headers)
-		jsonresp = response.json()
-		# print(jsonresp)
+		item_list = song_list['items']
+		# print(item_list)
+		return item_list
 	except:
-		print("OAuth Token has Expired")
-		return render_template('song.html', message= 'OAuth Token has expired')
+		print('error')
+		return render_template('song.html', message='items not found')
 
-	return jsonresp ## this is temporary for testing purposes
-
-
-
+# @app.route("/getGenre")
+def get_artist_genre(artist_id):
+	# artist_id = "07ZhipyrvoyNoJejeyM0PQ"
+	token_info, token_valid = get_token()
+	if(not token_valid):
+		return render_template('song.html', message='TOKEN INVALID')
 	
+	access_token = token_info['access_token']
+	sp = spotipy.Spotify(auth=access_token)
 
+	artist = sp.artist(artist_id)
+	try:
+		artist_genre_list = artist['genres']
+		# print(item_list)
+		return artist_genre_list
+	except:
+		print('error')
+		return render_template('song.html', message='items not found')
+
+	return
+
+# @app.route("/get_genre_list")
+def get_genre_list(playlist_id):
+	song_list = get_playlist_items(playlist_id)
+
+	genre_list = []
+	for i in range(len(song_list)):
+		artist_id = song_list[i]['track']['artists'][0]['id']
+		genres = get_artist_genre(artist_id)
+		for artist_genre in genres:
+			genre_list.append(artist_genre)
+	
+	return genre_list
+#TODO: read genre list from database
+@app.route("/get_genre_list")
+def get_top_genre(genre_list):
+	# genre_list = get_genre_list()
+	return max(genre_list, key=genre_list.count)
+
+def store_user_data():
+    
+	## store userID in DB
+
+	conn, cursor = get_db_connection()
+	username = get_current_user_name()
+	insert_userID(conn, cursor, username)
+	## get and store playlist
+
+	playlist_id = get_playlist()
+	# print(play_list_id)
+	insert_playlist(conn, cursor, username, playlist_id)
+	genre_list = get_genre_list(playlist_id) ## impacts performance quite a bit
+
+	top_genre = get_top_genre(genre_list)
+	insert_music_genre(conn, cursor, username, top_genre)
+
+	## still need to read from DB the genre list
+	conn.close()
+
+	return
+
+#TODO: still need to design a version where everything directly retrives from DB
 
 # Documentation on how to request a new token is here:
 # https://developer.spotify.com/documentation/general/guides/authorization/client-credentials/
@@ -213,6 +328,6 @@ def get_playlist():
 #   json = response.json()
 #   return json["access_token"]
 
+
 if __name__ == "__main__":
-	
 	app.run(debug=True)

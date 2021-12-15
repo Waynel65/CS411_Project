@@ -10,19 +10,45 @@ from final_project import *
 
 ## All the insert functions should look similar and all the get functions should be similar to one another
 
-def create_table():
+def get_db_connection():
+    '''
+        establish a DB connection
+    '''
+    try:
+        conn = psycopg2.connect(
+            database="users",
+            user='postgres',
+            password='password',
+            #put whatever your postgres password is above^
+            host='localhost',
+            port= '5432'
+        )
+        print("connected to database")
+        cursor = conn.cursor() 
+        return conn, cursor
+    except:
+        print("connection failed")
+        return
+
+def create_table(conn, cursor):
     '''
         creates a table named USERS, which stores
         the userIDs and their relevant info
     '''
 
+    # table explained:
+    # ID = index
+    # USER_ID = user_name
+    # playlist = the id of first playlist
+    # music genres = a list stored as a json file
+    # book_title = the book recommended
     try:
         sql = '''CREATE TABLE if not exists USERS(
         ID BIGSERIAL NOT NULL,
         USER_ID VARCHAR(100) NOT NULL PRIMARY KEY,
-        Playlist jsonb,
-        Music_Genre jsonb,
-        Book_Titles jsonb
+        Playlist VARCHAR(100),
+        Music_Genre VARCHAR(100),
+        Book_Title VARCHAR(100)
         )'''
 
         cursor.execute(sql)
@@ -31,7 +57,8 @@ def create_table():
         print("The table already exists")
         return
 
-def insert_userID(userID):
+
+def insert_userID(conn, cursor,userID):
     '''
         This function is used when the user first login to the website
         storing the userID in DB
@@ -46,30 +73,36 @@ def insert_userID(userID):
         print("This user is already in the database")
     return
 
-def insert_playlist(userID, playlist):
+def insert_playlist(conn, cursor,userID, playlist):
     '''
         After login, there could a button that invokes this function, which
         fetch the users' playlist from his/her spotify account
         and store the playlist according to his/her userID in DB
     '''
     
-    cmd = "UPDATE USERS SET Playlist=%s where USER_ID=%s"
-    cursor.execute(cmd, (json.dumps(playlist), userID), )
-    conn.commit()
+    try:
+        cmd = "UPDATE USERS SET Playlist=%s where USER_ID=%s"
+        cursor.execute(cmd, (playlist, userID), )
+        conn.commit()
+    except:
+        print("playlist existed!")
 
     return
 
 
-def insert_music_genre(userID, music_genre):
+def insert_music_genre(conn, cursor, userID, music_genre):
     '''
         This function should be invoked after insert_playlist
         This will fetch music_genres present in the playlist and
         insert the results into DB
     '''
     # might need to go through artist to get genre
-    cmd = "UPDATE USERS SET Music_Genre=%s where USER_ID=%s"
-    cursor.execute(cmd, (json.dumps(music_genre), userID), )
-    conn.commit()
+    try:
+        cmd = "UPDATE USERS SET Music_Genre=%s where USER_ID=%s"
+        cursor.execute(cmd, (music_genre, userID), )
+        conn.commit()
+    except:
+        print("user has already their fav music genre")
 
     return
 
@@ -79,13 +112,13 @@ def insert_book_titles(userID, book_titles):
         and insert the book_titles into DB
     '''
     cmd = "UPDATE USERS SET Music_Genre=%s where USER_ID=%s"
-    cursor.execute(cmd, (json.dumps(book_titles), userID), )
+    cursor.execute(cmd, (book_titles, userID), )
     conn.commit()
 
     return 
 
 
-def get_user_playlist(userID):
+def get_user_playlist(conn, cursor, userID):
     '''
         this function retrieves the playlist json file from DB
         according to the related userID
@@ -94,10 +127,10 @@ def get_user_playlist(userID):
     cursor.execute(query, (userID,))
     result = cursor.fetchall()
     print(result)
-    return
+    return result[0][0]
 
 
-def get_user_music_genre(userID):
+def get_user_music_genre(conn, cursor,userID):
     '''
         this function retrieves the music_genre json file from DB
         according to the related userID
@@ -105,8 +138,8 @@ def get_user_music_genre(userID):
     query = "SELECT Music_Genre FROM USERS where USER_ID=%s"
     cursor.execute(query, (userID,))
     result = cursor.fetchall()
-    print(result)
-    return
+    # print("result" , result[0][0])
+    return result[0][0]
 
 def get_user_book_titles(userID):
     '''
@@ -118,7 +151,7 @@ def get_user_book_titles(userID):
     result = cursor.fetchall()
     print(result)
 
-    return
+    return result[0][0]
 
 
 def view_table():
@@ -170,9 +203,9 @@ if __name__ == "__main__":
         print("CONNECTION FAILED")
     
     create_table()
-    insert_userID('XXX')
-    playlist_test = read_json_file("samplePlaylistResponse.json")
-    insert_playlist('XXX', playlist_test)
+    # insert_userID('XXX')
+    # playlist_test = read_json_file("samplePlaylistResponse.json")
+    # insert_playlist('XXX', playlist_test)
     #insert_playlist("wayne", "test")
     #view_table()
     #get_user_playlist("wayne")
