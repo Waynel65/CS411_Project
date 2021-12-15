@@ -4,7 +4,7 @@ from random import randrange
 
 def get_rand_book(bname):
     key = "&key=AIzaSyCUbOUuw8As3ge_lxljneppox9WbTHimrU"
-    q = "q=" + bname.replace(" ", "_")
+    q = "q=subject:" + bname.replace(" ", "_")
     url = "https://www.googleapis.com/books/v1/volumes?" + q + key
     print(url)
     try:
@@ -16,7 +16,7 @@ def get_rand_book(bname):
         print("ERROR GET BOOK")
 
 def main():
-    get_book("To Kill A Mockingbird")
+    get_rand_book("Rap")
 
 if __name__ == "__main__":
     main()

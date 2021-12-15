@@ -3,6 +3,7 @@ from flask import Flask, Response, request, session, render_template, redirect, 
 import requests
 import json
 import time
+from random import randrange
 #from flaskext.mysql import MySQL
 #import flask_login
 
@@ -139,6 +140,32 @@ def displaysearch():
 	except:
 		print("OAuth Token has Expired")
 		return render_template('song.html', message= 'OAuth Token has expired')
+
+@app.route("/displaybook", methods = ['GET','POST'])
+def displaybook():
+	#TODO: use database to calculate the most popular genre in the playlist
+	genre = "planets"#CHANGE THIS TO FAVORITE GENRE
+	key = "&key=AIzaSyCUbOUuw8As3ge_lxljneppox9WbTHimrU"
+	q = "q=subject:" + genre.replace(" ", "_")
+	url = "https://www.googleapis.com/books/v1/volumes?" + q + key
+	print(url)
+	try:
+		response = requests.request("GET", url)
+		jsonresp = response.json()
+		#print(jsonresp)
+		size = len(jsonresp['items'])
+		print("size: " + str(size))
+		randint = randrange(size)
+		random_book = jsonresp['items'][randint]['volumeInfo']['title']
+		print(random_book)
+		thumbnail = jsonresp['items'][randint]['volumeInfo']['imageLinks']['thumbnail']
+		print(thumbnail)
+		print("------------" + random_book + "------------------")
+		return render_template("book.html", genre=genre, bookname=random_book, picture = thumbnail)
+	except:
+		print("ERROR GET BOOK")
+		return render_template('book.html', message= "testing error")
+
 
 #TODO: still needs to work out the OAuth or else this function will keep getting json with error msg
 def get_playlist():
