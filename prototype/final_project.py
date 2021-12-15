@@ -116,8 +116,7 @@ def displaysearch():
 	payload={}
 	token_info, token_valid = get_token()
 	if(not token_valid):
-		print("THE TOKEN IS INVALID")
-		return
+		return render_template('song.html', message='TOKEN INVALID')
 	
 	accessToken = token_info['access_token']
 
@@ -144,7 +143,10 @@ def displaysearch():
 def get_playlist():
 
 	url = "https://api.spotify.com/v1/me/playlists"
-	access_token = get_token()
+	token_info, token_valid = get_token()
+	if(not token_valid):
+		return render_template('song.html', message='TOKEN INVALID')
+	
 	headers = {
 		'Authorization': ('Bearer ' + access_token),
 		'Content-Type': 'application/json'
