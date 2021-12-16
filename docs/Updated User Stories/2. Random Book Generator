@@ -3,11 +3,11 @@ Random Book Generator:
 I listen to so that I know it adheres to my tastes.”
 
 Happy Path:
-(Refer to "Logging In") After logging in with their Spotify account, the user will be shown a button that says “Generate Books.” Then, the web
+(Refer to "Log In") After logging in with their Spotify account, the user will be shown a button that says “Generate Books.” Then, the web
 page should return a book that the algorithm believes is relevant
 to the music genre the user likes along with a link to the Google Books page for the book. From there, the user can either choose to start reading the book
-or they can hit the “Redo” button (refer to <Redo Button> story) to get a new recommended book. 
+or they can hit the refresh button (refer to <Refresh Button> story) to get a new recommended book. 
 
 Unhappy Path:
 If the user does not like any of the books, they can choose to redo the book selections
-by hitting the redo button.
+by hitting the refresh button.
