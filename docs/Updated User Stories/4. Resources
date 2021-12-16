@@ -8,3 +8,6 @@ the book has good ratings and they will also have an opportunity to see if they 
 not by reading some of the sample pages in the book.
 
 Unhappy Path: If the user does not like the book, they can just go back and hit the refresh button. (refer to "Refresh Button")
+
+Why Changed:
+We took out the internal rating system because Google Books already comes with it inherently.
