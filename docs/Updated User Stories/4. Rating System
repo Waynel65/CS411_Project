@@ -1,0 +1,10 @@
+Rating System: 
+“As a user, I want to see which books have been strongly
+recommended by others so I know whether they are good books or not.”
+
+Happy Path: (refer to "Logging In") After the user receive a book choice, they will
+be provided with a link to the Google Book's page for the book. Here, they can see if
+the book has good ratings and they will also have an opportunity to see if they like the book or 
+not by reading some of the sample pages in the book.
+
+Unhappy Path: If the user does not like the book, they can just go back and hit the refresh button. (refer to "Refresh Button")
