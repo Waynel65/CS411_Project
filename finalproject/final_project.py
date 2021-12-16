@@ -20,6 +20,7 @@ from postgres import *
 #url_auth = 'https://accounts.spotify.com/authorize/?'
 #url_token = 'https://accounts.spotify.com/api/token'
 
+#removed cid, secrey and scope because secret
 
 # scope = 'user-library-read'
 redirect_uri = 'http://127.0.0.1:5000/authorize'
