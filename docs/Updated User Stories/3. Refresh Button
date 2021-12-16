@@ -9,3 +9,6 @@ Happy Path:
 Unhappy Path:
 If the user does not like any of the options and keeps refreshing,
 they might have to log in with a different account or make another playlist a top playlist.
+
+Why Changed:
+Our product worked well and refreshed the suggestion with the browser refresh button so we didn't need to add another button.
