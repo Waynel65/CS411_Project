@@ -5,7 +5,7 @@ account so that I can personalize the recommendation of books.”
 Happy Path:
 The user will be met with a "Welcome" page prompting them to log in through their Spotify account.
 Once their Spotify account is authenticated, the user has the option of choosing if they would like a book recommendation
-based on their top playlist and music genre. 
+based on their top playlist and music genre. (refer to "Random Book Generator" user story) 
 
 Unhappy Path:
 If the user does not have a Spotify account, they will be prompted to make a Spotify account and a playlist
