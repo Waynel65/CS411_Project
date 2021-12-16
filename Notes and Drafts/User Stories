@@ -1,0 +1,135 @@
+Main User Story
+“As a logged-in user, I want to get book recommendations from platforms such as Amazon based on my Spotify music playlists so that I know the book is geared towards my interests.”
+
+Happy Path (when things go right): 
+First, I will log into the website. If I am logging into the website for the first time, I will be given an “interactive instructions” guide that guides me through how the web-app works (refer to <Interactive Instructions> story). Then, I will be prompted to sign into my Spotify account. After the sign-in process succeeds, I will be prompted to choose a playlist (refer to <Logging In> story). Then, the system will generate a list of five books that are recommended to me based on the playlist I chose (refer to <Random Book Generator> story) as well as their average ratings. From there I can click on the book I am interested in and be led to a place where I can get the book (refer to <Receiving the Book>). If I do not like the books recommended, I can hit a refresh button (refer to <Redo Button> story). After I finish reading the book, I can rate how much I like it (refer to <Rating System> story).
+
+Unhappy Path (when things go wrong)
+Specified in each sub-story.
+
+
+
+
+Interactive Instructions
+“As a user, I would like to know how to use this web application since it is my first time using it.”
+
+Happy Path:
+If it is the user’s first time using the application, they will have the option to see an instructions manual. In this manual, they will be walked through how the application works and how they can get started. If they do not have a Spotify account, they will also have the opportunity to learn more about making one so that the application can get them some recommendations.
+
+Unhappy Path:
+If it is the user’s first time but they do not want to look at the instructions, they can just try to make an account on their own and try logging in again (refer to “Logging In, Unhappy Path”).
+
+
+
+
+
+
+
+
+Logging In:
+“As a user, I want to log into the application and make sure I am using my own Spotify account so that I can personalize the recommendation of books.”
+
+Happy Path:
+The user will be met with a "Welcome" page prompting them to log in through their Spotify account. Once their Spotify account is authenticated, the user has the option of choosing which playlist they would like the algorithm to scan through. 
+
+Unhappy Path:
+If the user does not have a Spotify account, they will be prompted to make a Spotify account and a playlist with all of their favorite songs. The genre of music that they prefer should in theory be similar to that of their favorite songs so this allows the user to quickly get a book recommendation without having to listen to too much music.
+
+
+
+
+
+
+
+
+Random Book Generator:
+“As a user, I want to find a book that suits the genre of music that I listen to so that I know it adheres to my tastes.”
+
+Happy Path:
+After choosing the playlists from their Spotify account (refer to <Logging in> story), the user will be given a button that says “Generate Books.” Then, the web page should return a list of 5 books that the algorithm believes are the most relevant to the music genre the user likes. From there, the user can either choose a book to start reading or they can hit the “Redo” button (refer to <Redo Button> story) to get a new list of recommended books. 
+
+Unhappy Path:
+If the user does not like any of the books, they can choose to redo the book selections by hitting the redo button.
+Instead of clicking on refresh button, the user clicks on the browser refresh button when they are not getting the books they like => the list of books should be preserved (i.e. the user should not have to run the music-to-book mapping algorithm again)
+The user hits the browser refresh button when the algorithm is running => there should be an indicator that the algorithm is running (e.g. a loading wheel). And if the user hits the browser refresh button when the algorithm is running, a prompt should warn the user from doing so. 
+Receiving the Book: 
+“As a user, I want to receive the book suggestion and have options on the format I would like to read the book in so that I do not have to spend a lot of time searching for it. I also want to be able to see which books are strongly suggested so that I know which ones contain good content.”
+
+Happy Path: The user will select a certain book title from the list of recommended books that is generated from the website (see “Random Book Generator”). A dropdown will provide a link to purchase the book online for the user along with a playable Audible trial where the user can listen to a small portion of the audiobook to see if they enjoy it. 
+
+Unhappy Path: If the selected book does not have an audiobook from Audible available or the book does not have any link to purchase it, then the user will be met with a message that says “No Resources Available” and the ISBN number of the book will be given to the user with a link to “isbnsearch.org .”
+
+
+
+
+
+
+
+
+Redo Button:
+“As a user, once I get my list of books, I might have already read some of them if I use the application a lot. I want to have the option of getting more, different book recommendations.”
+
+Happy Path:
+Once the user receives their five recommended books, the refresh button will appear. This button will allow them to essentially shuffle their options and get five more books that fit in the same genre category.
+
+Unhappy Path:
+If the user does not like any of the options and keeps refreshing, they will have five maximum refreshes. Once they hit this maximum, they can have the system scan their music again for their second most listened to genre of the same playlist or have it scan another playlist and be offered another set of books (refer to “Random Book Generator” and “Receiving the Book”)
+
+
+
+
+
+
+
+Rating System: 
+“As a user, I want to see which books have been strongly recommended by others so I know whether they are good books or not.”
+
+Happy Path: After the user chooses a book, it will be remembered in their profile. When the user finishes reading the book, they will have the option to go to their profile and rate the book out of five stars and leave a review. After ranking, there will be a short survey to ask if they would like to have similar content or different genres suggested. This will help us to improve the suggestion pattern for the users. 
+
+Unhappy Path: If the user did not enjoy the content they listened to or read and they left a poor rating (less than 3 stars), similar to the “Happy Path” above, they will be given a short survey and be able to leave a review to expand on why they did not enjoy the book and choose whether they prefer different genres of books.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Draft
+------------------------------------------------------------------------------------------------------------------------
+Logging In:
+
+Front End:
+As a user, I want to log into the application and make sure I am using my own Spotify account so that I can personalize the recommendation of books.
+Back End:
+Application verifies that the user has a Spotify account using the Spotify API and reads the genres of all the songs that he/she has on every playlist.
+
+Story:
+The user will be met with a "Welcome" page prompting them to log in through their Spotify account. Once their Spotify account is authenticated, they 
+
+
+Music to Book Mapping Algorithm:
+Front End: 
+As a user, I want to find a book that matches the genre of music that I like.
+Back End:
+Application finds the most popular genre of music that the user listens to. The genres of music will be mapped to different genres of books. Based on the genre of music that the user likes, the corresponding genre of book will be suggested to them.
+
+
+
+
+Format to receive the book: 
+Front End: Once users receive a suggestion from the book generator, if they are interested in reading the book, there will be an Audible button and an ebook link for users. 
+
+
+
+Back End: The algorithms will look into the database to find the unique key of the book and then link each button to the correct Audible and ebook format. 
+
+Story: Users find the recommended books suggestion pop up under the song they are listening to, they click into the options to find that they have audiobook and ebook option to download directly into their computer. 
