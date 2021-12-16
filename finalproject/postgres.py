@@ -18,7 +18,7 @@ def get_db_connection():
         conn = psycopg2.connect(
             database="users",
             user='postgres',
-            password='password',
+            password='1Eden2Hui',
             #put whatever your postgres password is above^
             host='localhost',
             port= '5432'
@@ -173,6 +173,7 @@ def user_exist(conn, cursor, userID):
         return True
 
     except:
+        
         return False
 
 def view_table():
@@ -213,7 +214,7 @@ if __name__ == "__main__":
         conn = psycopg2.connect(
             database="users",
             user='postgres',
-            password='',
+            password='1Eden2Hui',
             #put whatever your postgres password is above^
             host='localhost',
             port= '5432'
