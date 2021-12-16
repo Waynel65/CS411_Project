@@ -8,9 +8,10 @@ First, I will log into the website. (refer to "Log In" user story)
 If it is my first time logging on, I will be prompted to sign into my Spotify account. 
 If I don't have a Spotify account, I will be prompted to make one. After the sign-in process succeeds,
 I will be prompted to choose whether I want to generate a book related to my favorite music genre
-and top playlist. Then, the system will generate a book related to my favorite music genre. From there I can
-click on the displayed link for the recommended book. (refer to "Resources") If I do not like the books recommended, I can hit the refresh
-button on the browser and get a new book suggestion. (refer to "Refresh Button")
+and top playlist. (refer to "Random Book Generator" user story). Then, the system will generate a
+book related to my favorite music genre. From there I can click on the displayed link for
+the recommended book. (refer to "Resources" user story) If I do not like the books recommended, I can hit the refresh
+button on the browser and get a new book suggestion. (refer to "Refresh Button" user story)
 
 
 Unhappy Path (when things go wrong)
