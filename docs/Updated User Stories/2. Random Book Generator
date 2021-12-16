@@ -11,3 +11,8 @@ or they can hit the refresh button (refer to "Refresh Button" story) to get a ne
 Unhappy Path:
 If the user does not like any of the books, they can choose to redo the book selections
 by hitting the refresh button.
+
+
+Why Changed:
+We thought getting a random book would be pretty cool. Making five books and storing in a list also had a lot more implementation 
+that we could not get to.
