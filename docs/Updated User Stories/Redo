@@ -1,0 +1,11 @@
+Redo Button:
+“As a user, once I get my book suggestion, I might have already
+read some of them if I use the application a lot. I want to have
+the option of getting more, different book recommendations.”
+
+Happy Path:
+The user can hit the refresh part of the browser to get a new book suggestion.
+
+Unhappy Path:
+If the user does not like any of the options and keeps refreshing,
+they might have to log in with a different account or make another playlist a top playlist.
