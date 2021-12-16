@@ -1,0 +1,17 @@
+Main User Story
+“As a logged-in user, I want to get book recommendations from platforms such
+as Amazon based on my Spotify music playlists so that I know the book is geared
+towards my interests.”
+
+Happy Path (when things go right): 
+First, I will log into the website. 
+If it is my first time logging on, I will be prompted to sign into my Spotify account. 
+If I don't have a Spotify account, I will be prompted to make one. After the sign-in process succeeds,
+I will be prompted to choose whether I want to generate a book related to my favorite music genre
+and top playlist. Then, the system will generate a book related to my favorite music genre. From there I can
+click on the link for the recommended book. If I do not like the books recommended, I can hit the refresh
+button on the browser and get a new book suggestion.
+
+
+Unhappy Path (when things go wrong)
+Specified in each sub-story.
